@@ -64,6 +64,13 @@ const httpStatuses = {
     511: "Network Authentication Required"
 }
 
+/**
+ * Adds extra functions/objects to HTTP
+ * @param {object} req HTTP request
+ * @param {object} res HTTP response
+ * @param {object} next Next function if using in router
+ * @returns {object} Modified HTTP if next function not defined
+ */
 module.exports = (req, res, next) => {
     res.status = status => {
         res.statusCode = status;

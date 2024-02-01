@@ -5,7 +5,7 @@ const simpleReq = require("../simpleReq");
 const server = new Server(); // Create server
 const router = new Router(server); // Create router for server
 
-router.use(simpleReq); // Applies simpleReq (custom req/res objects/functions)
+router.use(simpleReq); // Applies simpleReq
 
 router.get("/", (req, res) => {
     // Send main page
@@ -22,4 +22,4 @@ router.use((req, res) => {
     res.sendStatus(404);
 });
 
-server.listen(80, () => console.log("Server listening at :80"));
+server.listen(80, () => console.log("Server listening at :80")); // Listen at port 80

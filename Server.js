@@ -11,6 +11,9 @@ const defaultOptions = {
     serverOptions: null
 }
 
+/**
+ * Creates server
+ */
 module.exports = class {
     constructor(options = defaultOptions || { }) {
         // Apply default options
@@ -28,6 +31,10 @@ module.exports = class {
 
     on(...args) {
         this.server.on(...args);
+    }
+
+    once(...args) {
+        this.server.once(...args);
     }
 
     listen(...args) {

@@ -1,5 +1,8 @@
 const listeners = [ ];
 
+/**
+ * Creates router
+ */
 module.exports = class {
     constructor(server) {
         if (typeof server?.on == "function") server.on("request", route);
