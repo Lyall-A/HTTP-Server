@@ -29,12 +29,12 @@ module.exports = class {
         if (options.listen) this.server.listen(options.port);
     }
 
-    on(...args) {
-        this.server.on(...args);
+    on(event, callback) {
+        this.server.on(event, callback);
     }
 
-    once(...args) {
-        this.server.once(...args);
+    once(event, callback) {
+        this.server.once(event, callback);
     }
 
     listen(...args) {
