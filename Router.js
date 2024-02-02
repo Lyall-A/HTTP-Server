@@ -52,7 +52,12 @@ function parseUrl(url = "/") {
  */
 function route(req, res) {
     const parsedUrl = { path, paths, query } = parseUrl(req.url); // Parse URL
-    req = { ...req, path: parsedUrl.path, paths: parsedUrl.paths, query: parsedUrl.query, params: { } }; // Modify request object
+
+    // Modify request object
+    req.path = parsedUrl.path;
+    req.paths = parsedUrl.paths;
+    req.query = parsedUrl.query;
+    req.params = { };
     
     const listenersMethod = listeners.filter(i => i.method == req.method || !i.method); // Get listeners
     if (!listenersMethod[0]) return; // Return if no listeners
