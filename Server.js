@@ -1,9 +1,12 @@
 const http = require("http");
 const https = require("https");
+const fs = require("fs");
 
 const defaultOptions = {
     port: 80,
     secure: false,
+    keyPath: null,
+    certPath: null,
     key: null,
     cert: null,
     listen: false,
@@ -20,6 +23,11 @@ module.exports = class {
         Object.entries(defaultOptions).forEach(([defaultKey, defaultValue]) => {
             if (options[defaultKey] == undefined) options[defaultKey] = defaultValue;
         });
+
+        this.options = options;
+
+        if (options.keyPath) options.key = fs.readFileSync(options.keyPath);
+        if (options.certPath) options.cert = fs.readFileSync(options.certPath);
 
         // Create server
         this.server = (options.secure ? https : http).createServer({ key: options.key, cert: options.cert, ...options.serverOptions });
@@ -38,6 +46,7 @@ module.exports = class {
     }
 
     listen(...args) {
+        if (typeof args[0] != "number" && this.options.port) args = [ this.options.port, ...args ]; // Set port if not in args
         this.server.listen(...args)
     }
 }

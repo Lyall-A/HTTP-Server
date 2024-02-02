@@ -11,6 +11,7 @@ module.exports = class {
     listeners = listeners;
     parseUrl = parseUrl;
     route = route;
+    routeMethods = [ "USE", "GET", "POST", "PUT", "DELETE" ];
     
     use = createListenerMethod();
     get = createListenerMethod("get");
