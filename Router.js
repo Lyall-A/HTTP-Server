@@ -72,7 +72,7 @@ function route(req, res) {
         }
 
         
-        if (!listener.method && !listener.path) return listener.callback(req, res, next); // Callback if listener was use instead of a method
+        if (!listener.method) return listener.callback(req, res, next); // Callback if listener was use instead of a method
         if (listener.path == "*") return listener.callback(req, res, next) // Callback if path is *
         if (listener.path == path) return listener.callback(req, res, next); // Callback if path matches
         if (listener.paths.length != paths.length) return next(); // Try next listener if path length does not match
