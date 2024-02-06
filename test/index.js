@@ -1,5 +1,5 @@
 const { simpleServer } = require ("../index");
-const { server, router } = simpleServer({ port: 8081 }, () => console.log("Server listening at :8080"));
+const { server, router } = simpleServer({ port: 8080 }, () => console.log("Server listening at :8080"));
 
 router.get("/", (req, res) => res.sendStatus(200));
 router.get("/test", (req, res) => res.send("hi"));
