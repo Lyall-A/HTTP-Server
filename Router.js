@@ -27,7 +27,7 @@ module.exports = class {
  */
 function parseUrl(url = "/") {
     let path = url.split("?")[0];
-    if (path.length > 1 && path.endsWith("/")) path = path.substring(0, path.length - 1); // Remove trailing slash
+    path = path.replace(/\/*$/, "") // Remove trailing slash(es)
     const query = { };
 
     // Parse query
@@ -70,21 +70,28 @@ function route(req, res) {
             index++;
             checkListener(listenersMethod[index], index);
         }
+        //console.log(listener);
+        //console.log(parsedUrl)
 
         if (!listener.path) return listener.callback(req, res, next); // Callback if no path
         if (listener.path == "*") return listener.callback(req, res, next) // Callback if path is *
-        if (listener.path == path) return listener.callback(req, res, next); // Callback if path matches
-        if (listener.paths.length != paths.length) return next(); // Try next listener if path length does not match
+        if (listener.path == (path || "/")) return listener.callback(req, res, next); // Callback if path matches
+        if (!listener.paths[0]) return next(); // Try next listener if no paths
+        if (listener.paths.length > paths.length) return next(); // Try next listener if router path is longer than request path
 
         // Look for params or anys
+        // console.log(listener)
         let match = true;
         listener.paths.forEach((listenerPath, index) => {
+            // console.log(listenerPath, paths[index])
             if (listenerPath == "*") return; // If any
             if (listenerPath.startsWith(":")) return req.params[listenerPath.substring(1)] = paths[index]; // if parameter
             if (listenerPath == paths[index]) return; // If path matches
             return match = false; // If no match found
         });
+        // if (match) console.log("match")
 
+        if (match && listener.paths.length != paths.length) return listener.path.endsWith("*") ? listener.callback(req, res, next) : next();
         if (match) return listener.callback(req, res, next); // Callback if match
 
         return next(); // Try next listener if no match
@@ -108,7 +115,7 @@ function createListenerMethod(method) {
         listeners.push({
             method: method?.toUpperCase(),
             path,
-            paths: path?.substring(1)?.split("/"),
+            paths: path?.substring(1)?.split("/")?.filter(i => i),
             callback: callback || path
         });
     }
