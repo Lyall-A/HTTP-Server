@@ -1,13 +1,13 @@
 const { simpleServer } = require ("../index");
 const { server, router } = simpleServer({ port: 8080 }, () => console.log("Server listening at :8080"));
 
-router.get("/", (req, res) => res.sendStatus(200));
-router.get("/test", (req, res) => res.send("hi"));
-router.get("/test2/*", (req, res) => res.sendHtml("<h1>Hello</h1>"));
-router.get("/test3/*/", (req, res) => res.sendHtml("<h1>World</h2>"));
-router.get("/test4/:param/:param2", (req, res) => res.send(req.params));
-router.get("*", (req, res) => res.sendHtml("<h1>Not Found</h1>"));
-router.use((req, res) => res.sendStatus(404));
+router.get("/", (req, res) => res.sendStatus(200)); // / (get)
+router.get("/test", (req, res) => res.send("hi")); // /test (get)
+router.get("/test2/*", (req, res) => res.sendHtml("<h1>Hello</h1>")); // /test2/w/h/a/t/e/v/e/r (get)
+router.get("/test3/*/", (req, res) => res.sendHtml("<h1>World</h2>")); //test3/whatever (get)
+router.get("/test4/:param/:param2", (req, res) => res.send(req.params)); // test4/what/ever (get)
+router.get("*", (req, res) => res.sendHtml("<h1>Not Found</h1>")); // whatever (get)
+router.use((req, res) => res.sendStatus(404)); // whatever (any)
 
 // const Server = require("../Server");
 // const Router = require("../Router");
