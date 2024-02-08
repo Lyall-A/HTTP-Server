@@ -70,8 +70,6 @@ function route(req, res) {
             index++;
             checkListener(listenersMethod[index], index);
         }
-        //console.log(listener);
-        //console.log(parsedUrl)
 
         if (!listener.path) return listener.callback(req, res, next); // Callback if no path
         if (listener.path == "*") return listener.callback(req, res, next) // Callback if path is *
@@ -80,16 +78,13 @@ function route(req, res) {
         if (listener.paths.length > paths.length) return next(); // Try next listener if router path is longer than request path
 
         // Look for params or anys
-        // console.log(listener)
         let match = true;
         listener.paths.forEach((listenerPath, index) => {
-            // console.log(listenerPath, paths[index])
             if (listenerPath == "*") return; // If any
             if (listenerPath.startsWith(":")) return req.params[listenerPath.substring(1)] = paths[index]; // if parameter
             if (listenerPath == paths[index]) return; // If path matches
             return match = false; // If no match found
         });
-        // if (match) console.log("match")
 
         if (match && listener.paths.length != paths.length) return listener.path.endsWith("*") ? listener.callback(req, res, next) : next();
         if (match) return listener.callback(req, res, next); // Callback if match

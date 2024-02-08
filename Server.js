@@ -26,14 +26,17 @@ module.exports = class {
 
         this.options = options;
 
+        // SSL
         if (options.keyPath) options.key = fs.readFileSync(options.keyPath);
         if (options.certPath) options.cert = fs.readFileSync(options.certPath);
 
         // Create server
         this.server = (options.secure ? https : http).createServer({ key: options.key, cert: options.cert, ...options.serverOptions });
 
+        // Routes if 'router' defined
         if (options.router) this.server.on("request", options.router.route);
 
+        // Listens if 'listener' true
         if (options.listen) this.server.listen(options.port);
     }
 

@@ -1,36 +1,11 @@
 const { simpleServer } = require ("../index");
-const { server, router } = simpleServer({ port: 8080 }, () => console.log("Server listening at :8080"));
+const { server, router } = simpleServer({ port: 8080 }, () => console.log("Server listening at :8080")); // Create simple server
 
-router.get("/", (req, res) => res.sendStatus(200)); // / (get)
-router.get("/test", (req, res) => res.send("hi")); // /test (get)
-router.get("/test2/*", (req, res) => res.sendHtml("<h1>Hello</h1>")); // /test2/w/h/a/t/e/v/e/r (get)
-router.get("/test3/*/", (req, res) => res.sendHtml("<h1>World</h2>")); //test3/whatever (get)
-router.get("/test4/:param/:param2", (req, res) => res.send(req.params)); // test4/what/ever (get)
-router.get("*", (req, res) => res.sendHtml("<h1>Not Found</h1>")); // whatever (get)
-router.use((req, res) => res.sendStatus(404)); // whatever (any)
-
-// const Server = require("../Server");
-// const Router = require("../Router");
-// const simpleReq = require("../simpleReq");
-
-// const server = new Server(); // Create server
-// const router = new Router(server); // Create router for server
-
-// router.use(simpleReq); // Applies simpleReq
-
-// router.get("/", (req, res) => {
-//     // Send main page
-//     res.sendHtml("<h1>Main page</h1>");
-// });
-
-// router.get("/page/:page", (req, res) => {
-//     // Send any page
-//     res.sendHtml(`<h1>Page ${req.params.page}</h1>`)
-// });
-
-// router.use((req, res) => {
-//     // Send 404 page
-//     res.sendStatus(404);
-// });
-
-// server.listen(80, () => console.log("Server listening at :80")); // Listen at port 80
+router.get("/", (req, res) => res.sendStatus(200)); // / (GET)
+router.get("/test", (req, res) => res.send("Test")); // /test (GET)
+router.get("/test2/*", (req, res) => res.sendHtml("<h1>Hello</h1>")); // /test2/w/h/a/t/e/v/e/r (GET)
+router.get("/test3/*/", (req, res) => res.sendHtml("<h1>World</h2>")); //test3/whatever (GET)
+router.get("/test4/:param/:param2", (req, res) => res.send(req.params)); // test4/what/ever (GET)
+router.use("/test5", (req, res) => res.sendHtml("<h1>Works for any method</h1>")); // /test5 (ANY)
+router.get("*", (req, res) => res.sendHtml("<h1>Not Found</h1>")); // whatever (GET)
+router.use((req, res) => res.sendStatus(404)); // whatever (ANY)
