@@ -40,12 +40,12 @@ module.exports = class {
      * @param {object} res Response object
      */
     route(req, res) {
-        const parsedUrl = { path, paths, query } = this.parseUrl(req.url); // Parse URL
-
+        const { path, paths, query } = this.parseUrl(req.url); // Parse URL
+ 
         // Modify request object
-        req.path = parsedUrl.path;
-        req.paths = parsedUrl.paths;
-        req.query = parsedUrl.query;
+        req.path = path;
+        req.paths = paths;
+        req.query = query;
         req.params = {};
 
         const listenersMethod = this.listeners.filter(i => i.method == req.method || !i.method); // Get listeners
