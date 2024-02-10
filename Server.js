@@ -34,7 +34,7 @@ module.exports = class {
         this.server = (options.secure ? https : http).createServer({ key: options.key, cert: options.cert, ...options.serverOptions });
 
         // Routes if 'router' defined
-        if (options.router) this.server.on("request", options.router.route);
+        if (options.router) this.server.on("request", (req, res) => options.router.route(req, res));
 
         // Listens if 'listener' true
         if (options.listen) this.server.listen(options.port);
